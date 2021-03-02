@@ -7,8 +7,8 @@ describe 'Road trip' do
         user = create(:user)
         headers = {'CONTENT_TYPE' => 'application/json'}
         params = {
-                  origin: 'New York, NY',
-                  destination: 'Los Angeles, CA',
+                  start_city: 'New York, NY',
+                  end_city: 'Los Angeles, CA',
                   api_key: user.api_key
                  }
 
@@ -32,10 +32,10 @@ describe 'Road trip' do
 
     		attributes = parsed[:data][:attributes]
 
-    		expect(attributes).to have_key(:origin)
-    		expect(attributes[:origin]).to be_a(String)
-    		expect(attributes).to have_key(:destination)
-    		expect(attributes[:destination]).to be_a(String)
+    		expect(attributes).to have_key(:start_city)
+    		expect(attributes[:start_city]).to be_a(String)
+    		expect(attributes).to have_key(:end_city)
+    		expect(attributes[:end_city]).to be_a(String)
     		expect(attributes).to have_key(:travel_time)
     		expect(attributes[:travel_time]).to be_a(String)
       end
