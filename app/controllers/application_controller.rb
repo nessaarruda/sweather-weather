@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  include ActionController::Helpers
+  include ActionController::Helpers # added to get access to current_user
   helper_method :current_user
 
   def current_user
