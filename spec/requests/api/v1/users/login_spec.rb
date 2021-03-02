@@ -22,4 +22,25 @@ describe 'User login' do
       expect(parsed[:data][:attributes][:api_key]).to eq(user.api_key)
     end
   end
+  describe 'bad path' do
+    it 'return error if bad credentials' do
+      user = create(:user)
+
+      params = {
+        'email' => user.email,
+        'password' => 'wrong_password'
+      }
+
+      post '/api/v1/sessions', params: params
+
+      expect(response.status).to eq(400)
+      expect(response).to_not be_successful
+
+      parsed = parse(response)
+
+      expect(parsed).to be_a(Hash)
+      expect(parsed).to_not have_key(:data)
+      expect(parsed[:error]).to eq('Invalid credentials, please try again')
+    end
+  end
 end
