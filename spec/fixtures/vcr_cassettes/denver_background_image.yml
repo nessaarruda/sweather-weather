@@ -24,7 +24,7 @@ http_interactions:
       - '9326'
       Server:
       - Cowboy
-      Access-Control-Allow-Origin:
+      Access-Control-Allow-start_city:
       - "*"
       Access-Control-Request-Method:
       - "*"
@@ -73,7 +73,7 @@ http_interactions:
       X-Timer:
       - S1614703349.888414,VS0,VE1
       Vary:
-      - Accept-Encoding, Origin,Authorization,client-geo-region
+      - Accept-Encoding, start_city,Authorization,client-geo-region
     body:
       encoding: ASCII-8BIT
       string: !binary |-
@@ -103,7 +103,7 @@ http_interactions:
       - '9326'
       Server:
       - Cowboy
-      Access-Control-Allow-Origin:
+      Access-Control-Allow-start_city:
       - "*"
       Access-Control-Request-Method:
       - "*"
@@ -152,7 +152,7 @@ http_interactions:
       X-Timer:
       - S1614703349.991151,VS0,VE0
       Vary:
-      - Accept-Encoding, Origin,Authorization,client-geo-region
+      - Accept-Encoding, start_city,Authorization,client-geo-region
     body:
       encoding: ASCII-8BIT
       string: !binary |-
