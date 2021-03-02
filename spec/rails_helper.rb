@@ -34,3 +34,7 @@ VCR.configure do |config|
   config.filter_sensitive_data("<TMB_movie_api_key>") { ENV["TMD_api_key"] }
   config.configure_rspec_metadata!
 end
+
+def parse(response) # this method is available for all tests
+  JSON.parse(response.body, symbolize_names: true)
+end
