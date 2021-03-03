@@ -1,9 +1,11 @@
 class Forecast
-  attr_reader :weather_at_eta
+  attr_reader :current_forecast,
+              :daily_forecast,
+              :hourly_forecast
 
   def initialize(forecast)
-    @temp = forecast[:temp]
-    @description = forecast[:weather][0][:description]
-    @wheater_at_eta = {temperature: @temp, conditions: @description}
+    @current_weather = forecast[:current]
+    @daily_weather = forecast[:daily]
+    @hourly_weather = forecast[:hourly]
   end
 end
