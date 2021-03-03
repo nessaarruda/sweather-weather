@@ -29,4 +29,20 @@ RSpec.describe 'User Registration' do
       expect(parsed[:data][:attributes][:api_key]).to eq(user.api_key)
     end
   end
+  describe 'sad path' do
+    it 'returns error if credentials are invalid' do
+      params = {
+        email:  'user@example.com',
+        password: 'password',
+        password_confirmation: 'password2'
+      }
+
+      post '/api/v1/users', params: params
+
+      expect(User.all).to eq([])
+
+      parsed = parse(response)
+      expect(parsed[:error]).to eq("Password confirmation doesn't match Password")
+    end
+  end
 end
