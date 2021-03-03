@@ -22,11 +22,6 @@ class RoadTripService
       lnt = parsed[:results][0][:locations][0][:latLng][:lng]
     end
 
-    def self.parse(response)
-      JSON.parse(response.body, symbolize_names: true)
-    end
-
-
     def conn2
       conn = Faraday.new('http://www.mapquestapi.com')
     end
