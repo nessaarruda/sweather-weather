@@ -82,4 +82,4 @@ production:
   <<: *default
   database: sweather-weather_production
   username: sweather-weather
-  password: <%= ENV['SWEATHER-WEATHER_DATABASE_PASSWORD'] %>
+  password: <%= ENV['SWEATHER-eta_weatherBASE_PASSWORD'] %>
