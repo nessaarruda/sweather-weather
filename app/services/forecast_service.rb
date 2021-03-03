@@ -1,9 +1,14 @@
 class ForecastService
-  def self.weather_data(lat, lng)
+  def self.eta_weather(lat, lng)
     response = conn.get("/data/2.5/onecall?lat=#{lat}&lon=#{lng}&exclude=minutely&appid=#{ENV['FORECAST_API_KEY']}")
     parsed = parse(response)
-    forecast = parsed[:hourly].first(40).last
-    Forecast.new(forecast)
+    Forecast.new(parsed)
+  end
+
+private
+
+  def self.parse(response)
+    JSON.parse(response.body, symbolize_names: true)
   end
 
   def self.conn
