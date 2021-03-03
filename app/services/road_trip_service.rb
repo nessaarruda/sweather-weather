@@ -7,7 +7,7 @@ class RoadTripService
     end
 
     def coords(location)
-      ForecastService.weather_data(lat(location), lng(location))
+      ForecastService.eta_weather(lat(location), lng(location))
     end
 
     def lat(location)
