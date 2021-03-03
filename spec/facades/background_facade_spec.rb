@@ -10,7 +10,25 @@ describe 'Background Facade' do
         expect(image.image_url).to be_a(String)
         expect(image.credit).to be_a(String)
         expect(image.location).to be_a(String)
-      end 
+      end
+    end
+  end
+  describe 'sad path' do
+    it ' returns empty array if no image is found' do
+      VCR.use_cassette('no_background') do
+        background = BackgroundFacade.get_background('seadfvqwa')
+
+        expect(background).to be_a(Hash)
+
+        expect(background).to have_key(:total)
+        expect(background[:total]).to eq(0)
+
+        expect(background).to have_key(:total_pages)
+        expect(background[:total_pages]).to eq(0)
+
+        expect(background).to have_key(:results)
+        expect(background[:results]).to eq([])
+      end
     end
   end
 end
