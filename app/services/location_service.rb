@@ -1,7 +1,6 @@
 class LocationService
   class << self
   def forecast_data(location)
-    require "pry"; binding.pry
     data = ForecastService.eta_weather(lat(location), lng(location))
   end
 

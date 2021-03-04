@@ -1,5 +1,5 @@
 require 'rails_helper'
-describe Forecast do
+describe CurrentForecast do
   describe 'happy path' do
     xit 'exists and has attributes' do
       # doesnt look like a poro test, I think Im sending the poro the wrong structure

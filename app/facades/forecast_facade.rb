@@ -3,7 +3,5 @@ class ForecastFacade
     lat = LocationService.lat(location)
     lng = LocationService.lng(location)
     ForecastService.weather(lat, lng)
-
-
   end
 end

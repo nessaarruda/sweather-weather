@@ -28,10 +28,10 @@ describe 'Weather' do
         expect(data[:id]).to eq(nil)
 
         expect(data).to have_key(:type)
-        expect(data[:type]).to eq('roadtrip')
+        expect(data[:type]).to eq('forecast')
         expect(data).to have_key(:attributes)
         expect(data[:attributes]).to be_a(Hash)
-
+        require "pry"; binding.pry
         expect(data[:attributes]).to have_key(:travel_time)
         expect(data[:attributes][:travel_time]).to eq("40:34:31")
 
@@ -45,4 +45,4 @@ describe 'Weather' do
       end
     end
   end
-end  
+end
