@@ -5,14 +5,11 @@ describe 'Forecast' do
     it 'return current, daily and hourly forecast' do
       VCR.use_cassette('weather_ny') do
         user = create(:user)
-        headers = {'CONTENT_TYPE' => 'application/json'}
-        params = {
-                  start_city: 'Los Angeles, CA',
-                  end_city: 'New York, NY',
-                  api_key: user.api_key
-                 }
+        headers = {'CONTENT_TYPE' => 'application/json',
+                    'ACCEPT' => 'application/json'}
+        params = {location: "Los Angeles, CA"}
 
-        post '/api/v1/forecast', headers: headers, params: JSON.generate(params)
+        get '/api/v1/forecast', headers: headers, params: params
 
         parsed = parse(response)
 
@@ -22,56 +19,65 @@ describe 'Forecast' do
         expect(parsed).to be_a(Hash)
         expect(parsed[:data]).to be_a(Hash)
 
-        current = parsed[:data][:attributes][:weather_at_eta][:current_weather]
+        current = parsed[:data][:attributes][:current_forecast]
         # expect(current).to have_key(:datetime) not working
-        expect(current).to have_key(:sunrise) # looks weird
-        expect(current).to have_key(:sunset)
-        expect(current).to have_key(:temp)
+        expect(current).to have_key(:sunrise)# looks weird
+        expect(current).to have_key(:sunset)# looks weird
+        expect(current).to have_key(:temperature) # looks weird
         expect(current).to have_key(:feels_like)
         expect(current).to have_key(:humidity)
         expect(current).to have_key(:uvi)
         expect(current).to have_key(:visibility)
-        expect(current).to have_key(:weather)
-        expect(current[:weather][0]).to have_key(:description)
-        expect(current[:weather][0]).to have_key(:icon)
-        # expect(current).to_not have_key(:dew_point) # not working
-        # expect(current).to_not have_key(:clouds)
+        expect(current[:conditions]).to be_a(String)
+        expect(current[:icon]).to be_a(String)
+        expect(current).to_not have_key(:weather)
+        expect(current).to_not have_key(:wind_speed)
+        expect(current).to_not have_key(:wind_deg)
+        expect(current).to_not have_key(:dew_point)
+        expect(current).to_not have_key(:clouds)
 
-        daily = parsed[:data][:attributes][:weather_at_eta][:daily_weather][0]
+        daily = parsed[:data][:attributes][:daily_forecast]
 
+        expect(daily.count).to eq(5)
+
+        daily.flat_map do |day|
+          expect(day).to have_key(:sunrise)
+          expect(day).to have_key(:sunset)
+          expect(day).to have_key(:min_temp)
+          expect(day).to have_key(:max_temp)
+          expect(day).to have_key(:conditions)
+          expect(day).to have_key(:icon)
+          expect(day).to_not have_key(:dew_point)
+          expect(day).to_not have_key(:wind_speed)
+          expect(day).to_not have_key(:wind_deg)
+          expect(day).to_not have_key(:pressure)
+          expect(day).to_not have_key(:humidity)
+          expect(day).to_not have_key(:clouds)
+          expect(day).to_not have_key(:pop)
+          expect(day).to_not have_key(:dt)
+          expect(day).to_not have_key(:dt)
+        end
         # expect(daily).to have_key(:date) not working
-        expect(daily).to have_key(:sunrise)
-        expect(daily).to have_key(:sunset)
-        expect(daily[:temp]).to have_key(:min)
-        expect(daily[:temp]).to have_key(:max)
-        expect(daily[:weather][0]).to have_key(:description)
-        expect(daily[:weather][0]).to have_key(:icon)
-        # expect(daily).to_not have_key(:dew_point) not working
-        # expect(daily).to_not have_key(:wind_speed)
-        # expect(daily).to_not have_key(:wind_deg)
-        # expect(daily).to_not have_key(:pressure)
-        # expect(daily).to_not have_key(:humidity)
-        # expect(daily).to_not have_key(:clouds)
-        # expect(daily).to_not have_key(:pop)
-        # expect(daily).to_not have_key(:dt)
-        # expect(daily).to_not have_key(:dt)
 
-        hourly = parsed[:data][:attributes][:weather_at_eta][:hourly_weather][0]
+        hourly = parsed[:data][:attributes][:hourly_forecast] 
 
-        # expect(daily).to_not have_key(:dew_point) not working
-        # expect(daily).to_not have_key(:pressure)
-        # expect(daily).to_not have_key(:humidity)
-        # expect(daily).to_not have_key(:clouds)
-        # expect(daily).to_not have_key(:pop)
-        # expect(daily).to_not have_key(:dt)
-        # expect(daily).to_not have_key(:dt)
-        # expect(hourly).to_not have_key(:wind_deg)
-        # expect(hourly).to_not have_key(:wind_speed)
-        # expect(hourly).to have_key(:time) not working
-        expect(hourly).to have_key(:temp)
-        expect(hourly).to have_key(:weather)
-        expect(hourly[:weather][0]).to have_key(:description)
-        expect(hourly[:weather][0]).to have_key(:icon)
+        expect(hourly.count).to eq(8)
+
+        hourly.flat_map do |hour|
+          # expect(hourly).to have_key(:time) # not working
+          expect(hour).to have_key(:temperature)
+          expect(hour).to have_key(:conditions)
+          expect(hour).to have_key(:icon)
+          expect(hour).to_not have_key(:dew_point)
+          expect(hour).to_not have_key(:pressure)
+          expect(hour).to_not have_key(:humidity)
+          expect(hour).to_not have_key(:clouds)
+          expect(hour).to_not have_key(:pop)
+          expect(hour).to_not have_key(:dt)
+          expect(hour).to_not have_key(:dt)
+          expect(hour).to_not have_key(:wind_deg)
+          expect(hour).to_not have_key(:wind_speed)
+        end
       end
     end
   end

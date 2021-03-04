@@ -68,7 +68,7 @@ describe Background do
       }
 
       background = Background.new(data)
-      require "pry"; binding.pry
+      
       expect(background).to be_a(Background)
       expect(background.image_url).to eq(background_background[:urls]['full'])
       expect(background.location).to eq(city)

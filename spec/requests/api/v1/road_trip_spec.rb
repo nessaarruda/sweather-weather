@@ -5,7 +5,8 @@ describe 'Road trip' do
     it 'can create road trip' do
       VCR.use_cassette('route_ny_la') do
         user = create(:user)
-        headers = {'CONTENT_TYPE' => 'application/json'}
+        headers = {'CONTENT_TYPE' => 'application/json',
+                    'ACCEPT' => 'application/json'}
         params = {
                   start_city: 'New York, NY',
                   end_city: 'Los Angeles, CA',
@@ -18,14 +19,12 @@ describe 'Road trip' do
         expect(response.status).to eq(200)
 
         parsed = JSON.parse(response.body, symbolize_names: true)
-
         expect(parsed).to be_a(Hash)
     		expect(parsed).to have_key(:data)
     		expect(parsed[:data]).to be_a(Hash)
     		expect(parsed[:data]).to have_key(:id)
     		expect(parsed[:data][:id]).to eq(nil)
     		expect(parsed[:data]).to have_key(:type)
-    		expect(parsed[:data][:type]).to be_a(String)
     		expect(parsed[:data][:type]).to eq('roadtrip')
     		expect(parsed[:data]).to have_key(:attributes)
     		expect(parsed[:data][:attributes]).to be_a(Hash)
@@ -51,7 +50,7 @@ describe 'Road trip' do
                   api_key: user.api_key
                  }
 
-        post '/api/v1/forecast', headers: headers, params: JSON.generate(params)
+        post '/api/v1/road_trip', headers: headers, params: JSON.generate(params)
 
         expect(response).to be_successful
         expect(response.status).to eq(200)
@@ -71,17 +70,16 @@ describe 'Road trip' do
         expect(data[:attributes]).to be_a(Hash)
         expect(data[:attributes]).to have_key(:weather_at_eta)
         expect(data[:attributes][:weather_at_eta]).to be_a(Hash)
-        # expect(data[:attributes][:weather_at_eta]).to have_key(:condition) not working
-        # expect(data[:attributes][:weather_at_eta]).to have_key(:temp)
-
-        # expect(data[:attributes][:weather_at_eta]).to_not have_key(:current_weather) not working
-        # expect(data[:attributes][:weather_at_eta]).to_not have_key(:daily)
-        # expect(data[:attributes][:weather_at_eta]).to_not have_key(:wind_deg)
-        # expect(data[:attributes][:weather_at_eta]).to_not have_key(:wind_speed)
-        # expect(data[:attributes][:weather_at_eta]).to_not have_key(:feels_like)
-        # expect(data[:attributes][:weather_at_eta]).to_not have_key(:pressure)
-        # expect(data[:attributes][:weather_at_eta]).to_not have_key(:humidity)
-        # expect(data[:attributes][:weather_at_eta]).to_not have_key(:visibility)
+        expect(data[:attributes][:weather_at_eta]).to have_key(:conditions)
+        expect(data[:attributes][:weather_at_eta]).to have_key(:temperature)
+        expect(data[:attributes][:weather_at_eta]).to_not have_key(:current_weather)
+        expect(data[:attributes][:weather_at_eta]).to_not have_key(:daily)
+        expect(data[:attributes][:weather_at_eta]).to_not have_key(:wind_deg)
+        expect(data[:attributes][:weather_at_eta]).to_not have_key(:wind_speed)
+        expect(data[:attributes][:weather_at_eta]).to_not have_key(:feels_like)
+        expect(data[:attributes][:weather_at_eta]).to_not have_key(:pressure)
+        expect(data[:attributes][:weather_at_eta]).to_not have_key(:humidity)
+        expect(data[:attributes][:weather_at_eta]).to_not have_key(:visibility)
       end
     end
   end
@@ -156,5 +154,5 @@ describe 'Road trip' do
         expect(response[:error]).to eq('Invalid api_key')
       end
     end
-  end 
+  end
 end
