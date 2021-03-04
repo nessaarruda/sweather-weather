@@ -1,4 +1,4 @@
-class Forecast
+class CurrentForecast
   attr_reader :current_weather,
               :sunrise,
               :sunset,# :daily_forecast,
@@ -20,7 +20,5 @@ class Forecast
     @visibility = forecast[:current][:visibility]
     @conditions = forecast[:current][:weather][0][:description]
     @icon = forecast[:current][:weather][0][:icon]
-    # @daily_weather = forecast[:daily]
-    # @hourly_weather = forecast[:hourly]
   end
 end
