@@ -58,7 +58,22 @@ describe 'Background image', type: :request do
         expect(response).to_not be_successful
         expect(response.status).to eq(400)
         expect(response.body).to eq('Invalid request')
-      end 
+      end
+    end
+    xit 'returns blank url data if location is invalid' do
+        headers = {
+                  'CONTENT_TYPE' => 'application/json',
+                  'ACCEPT' => 'application/json'
+                  }
+        VCR.use_cassette('no_background_image') do
+          params = { location: 'wragar' }
+
+        get '/api/v1/backgrounds', headers: headers, params: params
+
+        expect(response).to_not be_successful
+        expect(response.status).to eq(401)
+        expect(response.body).to eq('Invalid request')
+      end
     end
   end
 end
