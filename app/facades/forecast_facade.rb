@@ -1,7 +1,9 @@
 class ForecastFacade
   def self.forecast(location)
-    lat = RoadTripService.lat(location)
-    lng = RoadTripService.lng(location)
-    ForecastService.eta_weather(lat, lng)
+    lat = LocationService.lat(location)
+    lng = LocationService.lng(location)
+
+    data = ForecastService.eta_weather(lat, lng)
+    Forecast.new(data)
   end
 end

@@ -5,8 +5,8 @@ Rails.application.routes.draw do
       resources :users, only: :create
       resources :sessions, only: :create
       resources :road_trip, only: :create
+      get '/forecast', to: 'forecast#show'
       get '/backgrounds', to: 'backgrounds#index'
-      post '/forecast', to: 'road_trip#create'
     end
   end
 end

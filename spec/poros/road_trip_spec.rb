@@ -43,7 +43,7 @@ describe RoadTrip do
 
 
       road_trip = RoadTrip.new( data, start_city, end_city, weather_data)
-      require "pry"; binding.pry
+      
       expect(road_trip).to be_a(RoadTrip)
       expect(road_trip.start_city).to eq(start_city.sub(",", ", ").titleize)
       expect(road_trip.end_city).to eq(end_city.sub(",", ", ").titleize)

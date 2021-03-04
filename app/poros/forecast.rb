@@ -4,8 +4,8 @@ class Forecast
               :hourly_forecast
 
   def initialize(forecast)
-    @current_weather = forecast[:current]
-    @daily_weather = forecast[:daily]
-    @hourly_weather = forecast[:hourly]
+    @current_forecast = CurrentForecast.new(forecast[:current])
+    @daily_forecast = forecast[:daily][1..5].map {|daily| DailyForecast.new(daily)}
+    @hourly_forecast = forecast[:hourly][1..8].map {|hourly| HourlyForecast.new(hourly)}
   end
 end
