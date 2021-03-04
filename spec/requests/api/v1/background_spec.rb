@@ -41,9 +41,9 @@ describe 'Background image', type: :request do
       expect(attributes).to_not have_key(:total)
       expect(attributes).to_not have_key(:total_pages)
       expect(attributes).to_not have_key(:results)
-      end
     end
   end
+end
   describe 'sad path' do
     it 'returns blank url data if location is not provided' do
         headers = {
@@ -58,7 +58,7 @@ describe 'Background image', type: :request do
         expect(response).to_not be_successful
         expect(response.status).to eq(400)
         expect(response.body).to eq('Invalid request')
-      end 
+      end
     end
   end
 end
