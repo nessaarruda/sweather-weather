@@ -2,6 +2,13 @@ class ForecastService
   def self.eta_weather(lat, lng)
     response = conn.get("/data/2.5/onecall?lat=#{lat}&lon=#{lng}&exclude=minutely&appid=#{ENV['FORECAST_API_KEY']}")
     parsed = parse(response)
+
+    Weather.new(parsed)
+  end
+
+  def self.weather(lat, lng)
+    response = conn.get("/data/2.5/onecall?lat=#{lat}&lon=#{lng}&exclude=minutely&appid=#{ENV['FORECAST_API_KEY']}")
+    parsed = parse(response)
     Forecast.new(parsed)
   end
 
