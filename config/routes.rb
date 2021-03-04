@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       resources :sessions, only: :create
       resources :road_trip, only: :create
       get '/backgrounds', to: 'backgrounds#index'
-      post '/forecast', to: 'road_trip#create'
+      post '/forecast', to: 'forecast#create'
     end
   end
 end
