@@ -20,9 +20,10 @@ describe 'Forecast' do
         expect(parsed[:data]).to be_a(Hash)
 
         current = parsed[:data][:attributes][:current_forecast]
-        # expect(current).to have_key(:datetime) not working
-        expect(current).to have_key(:sunrise)# looks weird
+
+        expect(current).to have_key(:datetime)
         expect(current).to have_key(:sunset)# looks weird
+        expect(current).to have_key(:sunrise)# looks weird
         expect(current).to have_key(:temperature) # looks weird
         expect(current).to have_key(:feels_like)
         expect(current).to have_key(:humidity)
@@ -41,6 +42,7 @@ describe 'Forecast' do
         expect(daily.count).to eq(5)
 
         daily.flat_map do |day|
+          expect(day).to have_key(:date)
           expect(day).to have_key(:sunrise)
           expect(day).to have_key(:sunset)
           expect(day).to have_key(:min_temp)
@@ -57,14 +59,13 @@ describe 'Forecast' do
           expect(day).to_not have_key(:dt)
           expect(day).to_not have_key(:dt)
         end
-        # expect(daily).to have_key(:date) not working
 
-        hourly = parsed[:data][:attributes][:hourly_forecast] 
+        hourly = parsed[:data][:attributes][:hourly_forecast]
 
         expect(hourly.count).to eq(8)
 
         hourly.flat_map do |hour|
-          # expect(hourly).to have_key(:time) # not working
+          expect(hour).to have_key(:time)
           expect(hour).to have_key(:temperature)
           expect(hour).to have_key(:conditions)
           expect(hour).to have_key(:icon)
