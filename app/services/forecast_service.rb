@@ -1,6 +1,12 @@
 class ForecastService
   def self.eta_weather(lat, lng)
-    response = conn.get("/data/2.5/onecall?lat=#{lat}&lon=#{lng}&exclude=minutely&appid=#{ENV['FORECAST_API_KEY']}")
+    response = conn.get("/data/2.5/onecall?") do |req|
+      req.params['appid'] = ENV['FORECAST_API_KEY']
+      req.params['lat'] = lat
+      req.params['lon'] = lng
+      req.params['units'] = 'imperial'
+      req.params['exclude'] = 'minutely'
+    end
     parsed = parse(response)
   end
 

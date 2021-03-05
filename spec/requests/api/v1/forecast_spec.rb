@@ -22,9 +22,9 @@ describe 'Forecast' do
         current = parsed[:data][:attributes][:current_forecast]
 
         expect(current).to have_key(:datetime)
-        expect(current).to have_key(:sunset)# looks weird
-        expect(current).to have_key(:sunrise)# looks weird
-        expect(current).to have_key(:temperature) # looks weird
+        expect(current).to have_key(:sunset)
+        expect(current).to have_key(:sunrise)
+        expect(current).to have_key(:temperature)
         expect(current).to have_key(:feels_like)
         expect(current).to have_key(:humidity)
         expect(current).to have_key(:uvi)
@@ -66,7 +66,7 @@ describe 'Forecast' do
 
         hourly.flat_map do |hour|
           expect(hour).to have_key(:time)
-          expect(hour).to have_key(:temperature)
+          expect(hour).to have_key(:temperature) # looks weird
           expect(hour).to have_key(:conditions)
           expect(hour).to have_key(:icon)
           expect(hour).to_not have_key(:dew_point)
@@ -89,6 +89,26 @@ describe 'Forecast' do
         headers = {'CONTENT_TYPE' => 'application/json'}
         params = {
                   start_city: 'Los wfeq, CA',
+                  end_city: '',
+                  api_key: user.api_key
+                 }
+
+        post '/api/v1/forecast', headers: headers, params: JSON.generate(params)
+
+        parsed = parse(response)
+
+        expect(response).to_not be_successful
+        expect(response.status).to eq(401)
+        expect(response[:error]).to eq('Invalid request')
+      end
+    end
+    xit 'returns error if forecast is too far in the future' do
+      VCR.use_cassette('weather_ny') do
+        user = create(:user)
+        headers = {'CONTENT_TYPE' => 'application/json'}
+        params = {
+
+            +00000      start_city: 'Los Angeles, CA',
                   end_city: '',
                   api_key: user.api_key
                  }
