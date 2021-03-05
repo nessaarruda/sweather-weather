@@ -3,24 +3,25 @@ require 'rails_helper'
 describe RoadTripService do
   # TESTS ARE OVERLAPING WITH SERVICE, ONE MUST BE WRONG
   # Sunset and sunrise return weird value
-  describe 'happy path' do
-    xit 'return travel time for a road trip' do
-      VCR.use_cassette('denver_map') do
-        response = RoadTripService.trip_data('New York, NY', 'Los Angeles, CA')
+describe 'happy path' do
+  it 'return travel time for a road trip' do
+    VCR.use_cassette('denver_map') do
+      response = RoadTripService.trip_data('New York, NY', 'Los Angeles, CA')
 
-        expect(response.travel_time).to be_a(String)
-      end
+      expect(response).to be_a(Hash)
+      expect(response[:route][:formattedTime]).to be_a(String)
     end
   end
-  describe 'sad path' do
-    xit 'invalid request' do
-      VCR.use_cassette('invalid_coordinates') do
-        response = RoadTripService.trip_data('avwsdfvw', 'wfgedg')
+end
+describe 'sad path' do
+  xit 'invalid request' do
+    VCR.use_cassette('invalid_coordinates') do
+      response = RoadTripService.trip_data('avwsdfvw', 'wfgedg')
         # NEED TO SET UP CONDITIONAL, RIGHT NOW IT IS RETURING THE INVALID CITIES
 
-        expect(response).to be_a(RoadTrip)
-      end
+      expect(response).to be_a(RoadTrip)
     end
+  end
     xit "returns 'impossible route' if roadtrip is not possible" do
       VCR.use_cassette('roadtrip_ny_london') do
         response = RoadTripService.trip_data('New York, NY', 'London, UK')

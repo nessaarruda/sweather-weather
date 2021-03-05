@@ -108,7 +108,7 @@ describe 'Forecast' do
         headers = {'CONTENT_TYPE' => 'application/json'}
         params = {
 
-            +00000      start_city: 'Los Angeles, CA',
+                  start_city: 'Los Angeles, CA',
                   end_city: '',
                   api_key: user.api_key
                  }

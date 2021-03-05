@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe BackgroundService do
   describe 'happy path' do
-    it 'can fetch the lat and long for a city' do
+    it 'can return the lat and lng for a city' do
       VCR.use_cassette('denver_background') do
         response = BackgroundService.get_image('Denver, CO')
 
@@ -19,7 +19,7 @@ describe BackgroundService do
         response = BackgroundService.get_image('swerhaqerw')
 
         expect(response).to be_a(Hash)
-        # testing this for the facade, either service or facade test is wrong
+        # testing this in the facade level, either service or facade test is wrong
         expect(response).to have_key(:total)
         expect(response[:total]).to eq(0)
 

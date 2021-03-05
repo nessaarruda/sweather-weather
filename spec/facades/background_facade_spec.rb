@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'Background Facade' do
   describe 'happy path' do
-    it 'returns an image based on location' do
+    it 'returns an image poro based on location' do
       VCR.use_cassette('denver_background_image') do
         image = BackgroundFacade.get_background('Denver, Co')
 
@@ -19,7 +19,7 @@ describe 'Background Facade' do
         background = BackgroundFacade.get_background('seadfvqwa')
 
         expect(background).to be_a(Hash)
-
+        
         expect(background).to have_key(:total)
         expect(background[:total]).to eq(0)
 

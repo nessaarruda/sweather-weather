@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Background do
   describe 'happy path' do
-    # wrong structure is being sent to this poro
+    # not sure how to test this
     xit 'exists and has attributes' do
       data = {
         :id=>"hdzGZRCYMSU",
@@ -68,7 +68,7 @@ describe Background do
       }
 
       background = Background.new(data)
-      
+
       expect(background).to be_a(Background)
       expect(background.image_url).to eq(background_background[:urls]['full'])
       expect(background.location).to eq(city)
