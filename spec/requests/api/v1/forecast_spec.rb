@@ -4,7 +4,7 @@ describe 'Forecast' do
   describe 'happy path' do
     it 'return current, daily and hourly forecast' do
       VCR.use_cassette('weather_ny') do
-        user = create(:user)
+
         headers = {
           CONTENT_TYPE: 'application/json',
           ACCEPT: 'application/json'
@@ -104,7 +104,7 @@ describe 'Forecast' do
   describe 'sad path' do
     it 'returns erros if location is blank' do
       VCR.use_cassette('no_weather') do
-        user = create(:user)
+
         headers = {
           CONTENT_TYPE: 'application/json',
           ACCEPT: 'application/json'
@@ -120,7 +120,7 @@ describe 'Forecast' do
     end
     xit 'returns erros if location is invalid' do
       VCR.use_cassette('no_weather') do
-        user = create(:user)
+
         headers = {
           CONTENT_TYPE: 'application/json',
           ACCEPT: 'application/json'
@@ -136,13 +136,11 @@ describe 'Forecast' do
     end
     xit 'returns error if forecast is too far in the future' do
       VCR.use_cassette('weather_ny') do
-        user = create(:user)
+
         headers = {'CONTENT_TYPE' => 'application/json'}
         params = {
-
                   start_city: 'Los Angeles, CA',
-                  end_city: '',
-                  api_key: user.api_key
+                  end_city: 'New York, NY',
                  }
 
         post '/api/v1/forecast', headers: headers, params: JSON.generate(params)

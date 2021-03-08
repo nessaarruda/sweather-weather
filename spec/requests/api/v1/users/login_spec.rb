@@ -14,12 +14,15 @@ describe 'User login' do
 
       expect(response.status).to eq(200)
       expect(response).to be_successful
+      expect(response.content_type).to eq('application/json')
 
       parsed = parse(response)
 
       expect(parsed).to be_a(Hash)
       expect(parsed[:data][:type]).to eq('user')
       expect(parsed[:data][:attributes][:api_key]).to eq(user.api_key)
+      expect(parsed[:data][:attributes]).to_not have_key(:password)
+      expect(parsed[:data][:attributes]).to_not have_key(:password_confirmation)
     end
   end
   describe 'bad path' do
