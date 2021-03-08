@@ -5,8 +5,10 @@ describe 'Forecast' do
     it 'return current, daily and hourly forecast' do
       VCR.use_cassette('weather_ny') do
         user = create(:user)
-        headers = {'CONTENT_TYPE' => 'application/json',
-                    'ACCEPT' => 'application/json'}
+        headers = {
+          CONTENT_TYPE: 'application/json',
+          ACCEPT: 'application/json'
+        }
         params = {location: "Los Angeles, CA"}
 
         get '/api/v1/forecast', headers: headers, params: params
@@ -18,6 +20,8 @@ describe 'Forecast' do
 
         expect(parsed).to be_a(Hash)
         expect(parsed[:data]).to be_a(Hash)
+        expect(parsed[:data][:id]).to eq(nil)
+        expect(parsed[:data][:type]).to eq("forecast")
 
         current = parsed[:data][:attributes][:current_forecast]
 
@@ -66,7 +70,7 @@ describe 'Forecast' do
 
         hourly.flat_map do |hour|
           expect(hour).to have_key(:time)
-          expect(hour).to have_key(:temperature) # looks weird
+          expect(hour).to have_key(:temperature)
           expect(hour).to have_key(:conditions)
           expect(hour).to have_key(:icon)
           expect(hour).to_not have_key(:dew_point)
@@ -83,23 +87,36 @@ describe 'Forecast' do
     end
   end
   describe 'sad path' do
-    xit 'returns erros if either city/state is invalid or blank' do
-      VCR.use_cassette('weather_ny') do
+    it 'returns erros if location is blank' do
+      VCR.use_cassette('no_weather') do
         user = create(:user)
-        headers = {'CONTENT_TYPE' => 'application/json'}
-        params = {
-                  start_city: 'Los wfeq, CA',
-                  end_city: '',
-                  api_key: user.api_key
-                 }
+        headers = {
+          CONTENT_TYPE: 'application/json',
+          ACCEPT: 'application/json'
+        }
+        params = {location: ""}
 
-        post '/api/v1/forecast', headers: headers, params: JSON.generate(params)
-
-        parsed = parse(response)
+        get '/api/v1/forecast', headers: headers, params: params
 
         expect(response).to_not be_successful
         expect(response.status).to eq(401)
-        expect(response[:error]).to eq('Invalid request')
+        expect(response.body).to eq("Please provide a valid location")
+      end
+    end
+    xit 'returns erros if location is invalid' do
+      VCR.use_cassette('no_weather') do
+        user = create(:user)
+        headers = {
+          CONTENT_TYPE: 'application/json',
+          ACCEPT: 'application/json'
+        }
+        params = {location: "defbaqwer"}
+
+        get '/api/v1/forecast', headers: headers, params: params
+
+        expect(response).to_not be_successful
+        expect(response.status).to eq(401)
+        expect(response.body).to eq("Please provide a valid location")
       end
     end
     xit 'returns error if forecast is too far in the future' do

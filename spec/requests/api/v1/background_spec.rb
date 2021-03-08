@@ -4,8 +4,8 @@ describe 'Background image', type: :request do
   describe 'happy path' do
     it 'returns background image for a location' do
       headers = {
-        'CONTENT_TYPE' => 'application/json',
-        'ACCEPT' => 'application/json'
+        CONTENT_TYPE: 'application/json',
+        ACCEPT: 'application/json'
       }
       VCR.use_cassette('denver_background_image') do
         params = { location: 'Denver, Co' }
@@ -47,8 +47,8 @@ describe 'Background image', type: :request do
   describe 'sad path' do
     it 'returns blank url data if location is not provided' do
       headers = {
-        'CONTENT_TYPE' => 'application/json',
-        'ACCEPT' => 'application/json'
+        CONTENT_TYPE: 'application/json',
+        ACCEPT: 'application/json'
       }
       VCR.use_cassette('no_background_image') do
         params = { location: '' }
@@ -57,13 +57,14 @@ describe 'Background image', type: :request do
 
         expect(response).to_not be_successful
         expect(response.status).to eq(400)
+
         expect(response.body).to eq('Invalid request')
       end
     end
     xit 'returns blank url data if location is invalid' do
       headers = {
-        'CONTENT_TYPE' => 'application/json',
-        'ACCEPT' => 'application/json'
+        CONTENT_TYPE: 'application/json',
+        ACCEPT: 'application/json'
       }
       VCR.use_cassette('no_background') do
         params = { location: 'rdsjnto6z' }

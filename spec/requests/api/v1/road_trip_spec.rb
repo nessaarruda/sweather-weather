@@ -119,7 +119,7 @@ describe 'Road trip' do
         expect(response[:error]).to eq('Please provide both cities')
       end
     end
-    xit 'returns error message if api key is not provided' do
+    it 'returns error message if api key is not provided' do
       VCR.use_cassette('no_route_ny_lon') do
         user = create(:user)
         headers = {'CONTENT_TYPE' => 'application/json'}
@@ -134,10 +134,9 @@ describe 'Road trip' do
         expect(response).to_not be_successful
         expect(response.status).to eq(401)
         #add test to confirm weather block is empty
-        expect(response[:error]).to eq('Please insert api_key')
       end
     end
-    xit 'returns error message if api key is incorrect' do
+    it 'returns error message if api key is incorrect' do
       VCR.use_cassette('no_route_ny_lon') do
         user = create(:user)
         headers = {'CONTENT_TYPE' => 'application/json'}
@@ -151,7 +150,6 @@ describe 'Road trip' do
 
         expect(response).to_not be_successful
         expect(response.status).to eq(401)
-        expect(response[:error]).to eq('Invalid api_key')
       end
     end
   end
