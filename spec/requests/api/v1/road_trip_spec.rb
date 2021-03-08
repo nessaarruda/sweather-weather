@@ -17,6 +17,7 @@ describe 'Road trip' do
 
         expect(response).to be_successful
         expect(response.status).to eq(200)
+        expect(response.content_type).to eq('application/json')
 
         parsed = JSON.parse(response.body, symbolize_names: true)
         expect(parsed).to be_a(Hash)

@@ -13,6 +13,8 @@ describe 'Background image', type: :request do
         get '/api/v1/backgrounds', headers: headers, params: params
 
         expect(response).to be_successful
+        expect(response.status).to eq(200)
+        expect(response.content_type).to eq('application/json')
 
         parsed = parse(response)
 
