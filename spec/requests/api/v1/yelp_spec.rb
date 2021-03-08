@@ -56,4 +56,22 @@ describe 'Yelp API' do
       end
     end
   end
+  describe 'sad path' do
+    it 'Returns error if food param is blank' do
+      VCR.use_cassette('food_denver_pueblo_invalid') do
+        params = {
+                  start:        'denver,co',
+                  destination:  'pueblo,co',
+                  food:         ''
+                 }
+
+        get '/api/v1/munchies', params: params
+
+        expect(response).to_not be_successful
+        expect(response.status).to eq(401)
+        expect(response.content_type).to eq('application/json')
+        expect(response.body).to eq('Please provide type of food')
+      end
+    end
+  end
 end
