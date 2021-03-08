@@ -1,10 +1,10 @@
-class YelpController < ApplicationController
+class Api::V1::MunchiesController < ApplicationController
 
   def index
-    conn = Fareday.new('https://api.yelp.com')
+    conn = Faraday.new('https://api.yelp.com')
     response = conn.get('/v3/businesses/search') do |req|
-      req.params['term'] = food_type
-      req.params['location'] = location
+      req.params['term'] = params[:food_type]
+      req.params['location'] = params[:location]
       req.params['limit'] = 1
       req.params['open_now'] = true
       req.params['Authorization'] = ENV['YELP_API_KEY']
