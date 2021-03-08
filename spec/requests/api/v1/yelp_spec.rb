@@ -5,9 +5,9 @@ describe 'Yelp API' do
     it 'Returns forecast and opened restaurant information for specific type of food' do
       VCR.use_cassette('forecast_food_ny_la') do
         params = {
-                  start:        'New York, NY',
-                  destination:  'Los Angeles, LA',
-                  food_type:         'Mexican'
+                  start:        'denver,co',
+                  destination:  'pueblo,co',
+                  food:         'hamburger'
                  }
 
         get '/api/v1/munchies', params: params
@@ -42,11 +42,10 @@ describe 'Yelp API' do
 
         forecast_details = yelp_details[:forecast]
 
-        expect(forecast_details).to have_key(:summary)
-        expect(forecast_details[:summary]).to be_a(String)
+        expect(forecast_details).to have_key(:conditions)
+        expect(forecast_details[:conditions]).to be_a(String)
         expect(forecast_details).to have_key(:temperature)
-        expect(forecast_details[:temperature]).to be_a(String)
-
+        expect(forecast_details[:temperature]).to be_a(Float)
 
         restaurant_details = yelp_details[:restaurant]
 
