@@ -16,14 +16,4 @@ describe ForecastService do
       end
     end
   end
-
-  describe 'sad path' do
-    xit 'no matching coordinates' do #returning hash, with info. Need conditional
-      VCR.use_cassette('denver_forecast') do
-        response = ForecastService.eta_weather(39.738453, -104.984853)
-
-        expect(response.body).to have_key(:erros)
-      end
-    end
-  end
 end

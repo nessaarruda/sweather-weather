@@ -19,7 +19,7 @@ describe BackgroundService do
         response = BackgroundService.get_image('swerhaqerw')
 
         expect(response).to be_a(Hash)
-        # testing this in the facade level, either service or facade test is wrong
+        
         expect(response).to have_key(:total)
         expect(response[:total]).to eq(0)
 

@@ -1,7 +1,8 @@
 class HourlyForecast
   attr_reader :temperature,
               :conditions,
-              :icon
+              :icon,
+              :time
 
   def initialize(forecast)
     @time = convert_stamp(forecast[:dt])

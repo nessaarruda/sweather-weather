@@ -12,6 +12,6 @@ class User < ApplicationRecord
   private
 
   def set_api_key
-    update(api_key: SecureRandom.uuid) # https://ruby-doc.org/stdlib-2.5.1/libdoc/securerandom/rdoc/SecureRandom.html
+    update(api_key: SecureRandom.uuid) 
   end
 end

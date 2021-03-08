@@ -4,6 +4,7 @@ class DailyForecast
               :max_temp,
               :min_temp,
               :conditions,
+              :date,
               :icon
 
   def initialize(forecast)

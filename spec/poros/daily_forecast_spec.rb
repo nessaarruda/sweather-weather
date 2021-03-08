@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Daily Forecast poro' do
-  xit 'exists' do
-    attr = {
+  it 'exists' do
+    data = {
             :dt=>1604944800,
             :sunrise=>1604929101,
             :sunset=>1604965761,
@@ -19,16 +19,16 @@ RSpec.describe 'Daily Forecast poro' do
             :uvi=>2.41
           }
 
-    forecast = DailyForecast.new(attr)
+    forecast = DailyForecast.new(data)
 
     expect(forecast).to be_a(DailyForecast)
 
-    expect(forecast.date).to eq('2020-11-09')
+    expect(forecast.date).to eq('2020-11-09 11:00:00 -0700')
     expect(forecast.sunrise).to eq('2020-11-09 06:38:21 -0700')
     expect(forecast.sunset).to eq('2020-11-09 16:49:21 -0700')
-    expect(forecast.max_temp).to eq(attr[:temp][:max])
-    expect(forecast.min_temp).to eq(attr[:temp][:min])
-    expect(forecast.conditions).to eq(attr[:weather][0][:description])
-    expect(forecast.icon).to eq(attr[:weather][0][:icon])
+    expect(forecast.max_temp).to eq(data[:temp][:max])
+    expect(forecast.min_temp).to eq(data[:temp][:min])
+    expect(forecast.conditions).to eq(data[:weather][0][:description])
+    expect(forecast.icon).to eq(data[:weather][0][:icon])
   end
 end

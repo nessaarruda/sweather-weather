@@ -23,7 +23,7 @@ RSpec.describe 'User Registration' do
 
       expect(parsed).to_not have_key(:error)
       expect(parsed).to have_key(:data)
-      expect(parsed[:data][:type]).to eq('user')
+      expect(parsed[:data][:type]).to eq('users')
       expect(parsed[:data][:id]).to eq(user.id.to_s)
       expect(parsed[:data][:attributes]).to be_a(Hash)
       expect(parsed[:data][:attributes][:email]).to eq(user.email)

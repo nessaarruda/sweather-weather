@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe Background do
   describe 'happy path' do
-    # not sure how to test this
     it 'exists and has attributes' do
       data = {
         "total": 1648,
@@ -64,10 +63,6 @@ describe Background do
       expect(background.image_url).to eq(data[:results][0][:urls][:regular])
       expect(background.location).to eq(data[:results][0][:user][:location])
       expect(background.credit).to eq(data[:results][0][:user][:name])
-    end
-  end
-  describe 'sad path' do
-    xit '' do
     end
   end
 end
