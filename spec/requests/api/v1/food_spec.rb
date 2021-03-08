@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Yelp API' do
   describe 'happy path' do
     it 'Returns forecast and opened restaurant information for specific type of food' do
-      VCR.use_cassette('forecast_food_ny_la') do
+      VCR.use_cassette('forecast_food_dev_pue') do
         params = {
                   start:        'denver,co',
                   destination:  'pueblo,co',
@@ -27,6 +27,9 @@ describe 'Yelp API' do
         expect(parsed[:data][:type]).to eq('munchie')
         expect(parsed[:data]).to have_key(:attributes)
         expect(parsed[:data][:attributes]).to be_a(Hash)
+        expect(parsed[:data][:attributes]).to_not have_key(:alias)
+        expect(parsed[:data][:attributes]).to_not have_key(:image_url)
+        expect(parsed[:data][:attributes]).to_not have_key(:businesses)
 
         yelp_details = parsed[:data][:attributes]
 
