@@ -1,20 +1,19 @@
 require 'rails_helper'
 
-describe 'Hourly Forecast poro' do
-
+describe HourlyForecast do
   it 'exists' do
     data = {
-            :dt=>1604872800,
-            :temp=>55.45,
-            :feels_like=>43.02,
-            :pressure=>1003,
-            :humidity=>20,
-            :dew_point=>16.95,
-            :clouds=>10,
-            :visibility=>10000,
-            :weather=>[{:id=>800, :main=>"Clear", :description=>"clear sky", :icon=>"01d"}],
-            :pop=>0
-          }
+      dt: 1_604_872_800,
+      temp: 55.45,
+      feels_like: 43.02,
+      pressure: 1003,
+      humidity: 20,
+      dew_point: 16.95,
+      clouds: 10,
+      visibility: 10_000,
+      weather: [{ id: 800, main: 'Clear', description: 'clear sky', icon: '01d' }],
+      pop: 0
+    }
 
     forecast = HourlyForecast.new(data)
 

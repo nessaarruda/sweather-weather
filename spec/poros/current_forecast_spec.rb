@@ -1,23 +1,22 @@
 require 'rails_helper'
 
-describe 'Current Forecast poro' do
+describe CurrentForecast do
   it 'exists' do
-
-    data = {:dt=>1604856223,
-            :sunrise=>1604842631,
-            :sunset=>1604879418,
-            :temp=>52.75,
-            :feels_like=>33.71,
-            :pressure=>1003,
-            :humidity=>14,
-            :dew_point=>7.77,
-            :uvi=>2.77,
-            :clouds=>20,
-            :visibility=>10000,
-            :wind_speed=>23.04,
-            :wind_deg=>200,
-            :wind_gust=>27.51,
-            :weather=>[{:id=>801, :main=>"Clouds", :description=>"few clouds", :icon=>"02d"}]}
+    data = { dt: 1_604_856_223,
+             sunrise: 1_604_842_631,
+             sunset: 1_604_879_418,
+             temp: 52.75,
+             feels_like: 33.71,
+             pressure: 1003,
+             humidity: 14,
+             dew_point: 7.77,
+             uvi: 2.77,
+             clouds: 20,
+             visibility: 10_000,
+             wind_speed: 23.04,
+             wind_deg: 200,
+             wind_gust: 27.51,
+             weather: [{ id: 801, main: 'Clouds', description: 'few clouds', icon: '02d' }] }
 
     forecast = CurrentForecast.new(data)
 

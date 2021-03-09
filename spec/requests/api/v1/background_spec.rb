@@ -7,7 +7,8 @@ describe 'Background image', type: :request do
         CONTENT_TYPE: 'application/json',
         ACCEPT: 'application/json'
       }
-      VCR.use_cassette('denver_background_image') do
+
+      VCR.use_cassette('denver_background_first') do
         params = { location: 'Denver, Co' }
 
         get '/api/v1/backgrounds', headers: headers, params: params
@@ -23,10 +24,8 @@ describe 'Background image', type: :request do
         expect(parsed).to have_key(:data)
         expect(data).to be_a(Hash)
 
-        null = nil
-
         expect(data).to have_key(:id)
-        expect(data[:id]).to eq(null)
+        expect(data[:id]).to eq(nil)
         expect(data).to have_key(:type)
         expect(data[:type]).to eq('background')
 

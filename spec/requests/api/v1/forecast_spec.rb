@@ -128,7 +128,7 @@ describe 'Forecast' do
         params = {location: "defbaqwer"}
 
         get '/api/v1/forecast', headers: headers, params: params
-        require "pry"; binding.pry
+
         expect(response).to_not be_successful
         expect(response.status).to eq(401)
         expect(response.body).to eq("Please provide a valid location")
