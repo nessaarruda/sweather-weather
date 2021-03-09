@@ -6,15 +6,4 @@ class ForecastSerializer
   attributes  :current_forecast,
               :daily_forecast,
               :hourly_forecast
-              # :sunrise,
-              # :sunset,
-              # :temperature,
-              # :feels_like,
-              # :humidity,
-              # :uvi,
-              # :visibility,
-              # :conditions,
-              # :icon,
-              # :max_temp
-
 end

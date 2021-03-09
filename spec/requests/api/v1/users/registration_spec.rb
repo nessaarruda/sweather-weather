@@ -1,15 +1,20 @@
 require 'rails_helper'
 
-RSpec.describe 'User Registration' do
+describe 'User Registration' do
   describe 'happy path' do
     it 'creates a user in the db, and generates a unique api key for that user,' do
+      headers = {
+        CONTENT_TYPE: 'application/json',
+        ACCEPT: 'application/json'
+      }
+
       params = {
         email:  'user@example.com',
         password: 'password',
         password_confirmation: 'password'
       }
 
-      post '/api/v1/users', params: params
+      post '/api/v1/users', headers: headers, params: JSON.generate(params)
 
       expect(User.all.count).to eq(1)
 
@@ -17,18 +22,19 @@ RSpec.describe 'User Registration' do
 
       expect(response).to be_successful
       expect(response.status).to eq(201)
+      expect(response.content_type).to eq('application/json')
 
       parsed = parse(response)
 
       expect(parsed).to_not have_key(:error)
       expect(parsed).to have_key(:data)
-      expect(parsed[:data][:type]).to eq('user')
+      expect(parsed[:data][:type]).to eq('users')
       expect(parsed[:data][:id]).to eq(user.id.to_s)
       expect(parsed[:data][:attributes]).to be_a(Hash)
-      expect(parsed[:data][:attributes]).to_not have_key(:password)
-      expect(parsed[:data][:attributes]).to_not have_key(:password_confirmation)
       expect(parsed[:data][:attributes][:email]).to eq(user.email)
       expect(parsed[:data][:attributes][:api_key]).to eq(user.api_key)
+      expect(parsed[:data][:attributes]).to_not have_key(:password)
+      expect(parsed[:data][:attributes]).to_not have_key(:password_confirmation)
     end
   end
   describe 'sad path' do
@@ -88,6 +94,30 @@ RSpec.describe 'User Registration' do
       expect(parsed).to_not have_key(:email)
       expect(parsed).to_not have_key(:password)
       expect(parsed[:error]).to eq('Email invalid')
+    end
+    it 'returns error message if email is already taken' do
+      params = {
+        email:  'user@gmail.com',
+        password: 'password',
+        password_confirmation: 'password'
+      }
+
+      post '/api/v1/users', params: params
+
+      expect(User.all.count).to eq(1)
+
+      expect(response).to be_successful
+      expect(response.status).to eq(201)
+
+      post '/api/v1/users', params: params
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(401)
+      expect(User.all.count).to eq(1)
+
+      parsed = parse(response)
+
+      expect(parsed[:error]).to eq('Email has already been taken')
     end
   end
 end

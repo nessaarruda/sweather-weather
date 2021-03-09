@@ -13,7 +13,7 @@ class RoadTrip
 
   def get_relevant_info(weather)
     weather_arrival = {}
-    weather_arrival[:temperature] = weather[:hourly][@travel_time.to_i - 1][:temp] # to get 40 hours forecast
+    weather_arrival[:temperature] = weather[:hourly][@travel_time.to_i - 1][:temp]
     weather_arrival[:conditions] = weather[:hourly][@travel_time.to_i - 1][:weather][0][:description]
     weather_arrival
   end

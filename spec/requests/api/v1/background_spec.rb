@@ -4,15 +4,18 @@ describe 'Background image', type: :request do
   describe 'happy path' do
     it 'returns background image for a location' do
       headers = {
-        'CONTENT_TYPE' => 'application/json',
-        'ACCEPT' => 'application/json'
+        CONTENT_TYPE: 'application/json',
+        ACCEPT: 'application/json'
       }
-      VCR.use_cassette('denver_background_image') do
+
+      VCR.use_cassette('denver_background_first') do
         params = { location: 'Denver, Co' }
 
         get '/api/v1/backgrounds', headers: headers, params: params
 
         expect(response).to be_successful
+        expect(response.status).to eq(200)
+        expect(response.content_type).to eq('application/json')
 
         parsed = parse(response)
 
@@ -21,10 +24,8 @@ describe 'Background image', type: :request do
         expect(parsed).to have_key(:data)
         expect(data).to be_a(Hash)
 
-        null = nil
-
         expect(data).to have_key(:id)
-        expect(data[:id]).to eq(null)
+        expect(data[:id]).to eq(nil)
         expect(data).to have_key(:type)
         expect(data[:type]).to eq('background')
 
@@ -45,10 +46,10 @@ describe 'Background image', type: :request do
     end
   end
   describe 'sad path' do
-    it 'returns blank url data if location is not provided' do
+    it 'returns error if location is not provided' do
       headers = {
-        'CONTENT_TYPE' => 'application/json',
-        'ACCEPT' => 'application/json'
+        CONTENT_TYPE: 'application/json',
+        ACCEPT: 'application/json'
       }
       VCR.use_cassette('no_background_image') do
         params = { location: '' }
@@ -60,20 +61,21 @@ describe 'Background image', type: :request do
         expect(response.body).to eq('Invalid request')
       end
     end
-    xit 'returns blank url data if location is invalid' do
-      headers = {
-        'CONTENT_TYPE' => 'application/json',
-        'ACCEPT' => 'application/json'
-      }
-      VCR.use_cassette('no_background') do
-        params = { location: 'rdsjnto6z' }
-
-        get '/api/v1/backgrounds', headers: headers, params: params
-
-        expect(response).to_not be_successful
-        expect(response.status).to eq(401)
-        expect(response.body).to eq('Invalid request')
-      end
-    end
+    # xit 'returns error if location is invalid' do
+    #   headers = {
+    #     CONTENT_TYPE: 'application/json',
+    #     ACCEPT: 'application/json'
+    #   }
+    #
+    #   VCR.use_cassette('no_background') do
+    #     params = { location: 'rdsjnto6z' }
+    #
+    #     get '/api/v1/backgrounds', headers: headers, params: params
+    #
+    #     expect(response).to_not be_successful
+    #     expect(response.status).to eq(400)
+    #     expect(response.body).to eq('Invalid request')
+    #   end
+    # end
   end
 end

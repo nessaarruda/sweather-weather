@@ -5,6 +5,7 @@ describe 'Road trip' do
     it 'can create road trip' do
       VCR.use_cassette('route_ny_la') do
         user = create(:user)
+
         headers = {'CONTENT_TYPE' => 'application/json',
                     'ACCEPT' => 'application/json'}
         params = {
@@ -17,6 +18,7 @@ describe 'Road trip' do
 
         expect(response).to be_successful
         expect(response.status).to eq(200)
+        expect(response.content_type).to eq('application/json')
 
         parsed = JSON.parse(response.body, symbolize_names: true)
         expect(parsed).to be_a(Hash)
@@ -84,25 +86,24 @@ describe 'Road trip' do
     end
   end
   describe 'sad path' do
-    xit 'returns error message if route is impossible' do
-      VCR.use_cassette('no_route_ny_lon') do
-        user = create(:user)
-        headers = {'CONTENT_TYPE' => 'application/json'}
-        params = {
-                  start_city: 'New York, NY',
-                  end_city: 'London, UK',
-                  api_key: user.api_key
-                 }
-
-        post '/api/v1/road_trip', headers: headers, params: JSON.generate(params)
-
-        expect(response).to_not be_successful
-        expect(response.status).to eq(401)
-        #add test to confirm weather block is empty
-        expect(response[:error]).to eq('Impossible route')
-      end
-    end
-    xit 'returns error message if one of the cities is not provided is impossible' do
+    # xit 'returns error message if route is impossible' do
+    #   VCR.use_cassette('no_route_ny_lon') do
+    #     user = create(:user)
+    #     headers = {'CONTENT_TYPE' => 'application/json'}
+    #     params = {
+    #               start_city: 'New York, NY',
+    #               end_city: 'London, UK',
+    #               api_key: user.api_key
+    #              }
+    #
+    #     post '/api/v1/road_trip', headers: headers, params: JSON.generate(params)
+    #
+    #     expect(response).to_not be_successful
+    #     expect(response.status).to eq(401)
+    #     expect(response[:error]).to eq('Impossible route')
+    #   end
+    # end
+    it 'returns error message if one or both cities are not provided' do
       VCR.use_cassette('no_route_ny_lon') do
         user = create(:user)
         headers = {'CONTENT_TYPE' => 'application/json'}
@@ -116,10 +117,10 @@ describe 'Road trip' do
 
         expect(response).to_not be_successful
         expect(response.status).to eq(401)
-        expect(response[:error]).to eq('Please provide both cities')
+        expect(response.body).to eq('Invalid request')
       end
     end
-    xit 'returns error message if api key is not provided' do
+    it 'returns error message if api key is not provided' do
       VCR.use_cassette('no_route_ny_lon') do
         user = create(:user)
         headers = {'CONTENT_TYPE' => 'application/json'}
@@ -133,11 +134,10 @@ describe 'Road trip' do
 
         expect(response).to_not be_successful
         expect(response.status).to eq(401)
-        #add test to confirm weather block is empty
-        expect(response[:error]).to eq('Please insert api_key')
+        expect(response.body).to eq('Invalid request')
       end
     end
-    xit 'returns error message if api key is incorrect' do
+    it 'returns error message if api key is incorrect' do
       VCR.use_cassette('no_route_ny_lon') do
         user = create(:user)
         headers = {'CONTENT_TYPE' => 'application/json'}
@@ -151,7 +151,8 @@ describe 'Road trip' do
 
         expect(response).to_not be_successful
         expect(response.status).to eq(401)
-        expect(response[:error]).to eq('Invalid api_key')
+
+        expect(response.body).to eq('Invalid request')
       end
     end
   end
