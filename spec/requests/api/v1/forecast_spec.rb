@@ -118,39 +118,39 @@ describe 'Forecast' do
         expect(response.body).to eq("Please provide a valid location")
       end
     end
-    xit 'returns erros if location is invalid' do
-      VCR.use_cassette('no_weather') do
-
-        headers = {
-          CONTENT_TYPE: 'application/json',
-          ACCEPT: 'application/json'
-        }
-        params = {location: "defbaqwer"}
-
-        get '/api/v1/forecast', headers: headers, params: params
-
-        expect(response).to_not be_successful
-        expect(response.status).to eq(401)
-        expect(response.body).to eq("Please provide a valid location")
-      end
-    end
-    xit 'returns error if forecast is too far in the future' do
-      VCR.use_cassette('weather_ny') do
-
-        headers = {'CONTENT_TYPE' => 'application/json'}
-        params = {
-                  start_city: 'Los Angeles, CA',
-                  end_city: 'New York, NY',
-                 }
-
-        post '/api/v1/forecast', headers: headers, params: JSON.generate(params)
-
-        parsed = parse(response)
-
-        expect(response).to_not be_successful
-        expect(response.status).to eq(401)
-        expect(response[:error]).to eq('Invalid request')
-      end
-    end
+    # xit 'returns erros if location is invalid' do
+    #   VCR.use_cassette('no_weather') do
+    #
+    #     headers = {
+    #       CONTENT_TYPE: 'application/json',
+    #       ACCEPT: 'application/json'
+    #     }
+    #     params = {location: "defbaqwer"}
+    #
+    #     get '/api/v1/forecast', headers: headers, params: params
+    #
+    #     expect(response).to_not be_successful
+    #     expect(response.status).to eq(401)
+    #     expect(response.body).to eq("Please provide a valid location")
+    #   end
+    # end
+    # xit 'returns error if forecast is too far in the future' do
+    #   VCR.use_cassette('weather_ny') do
+    #
+    #     headers = {'CONTENT_TYPE' => 'application/json'}
+    #     params = {
+    #               start_city: 'Los Angeles, CA',
+    #               end_city: 'New York, NY',
+    #              }
+    #
+    #     post '/api/v1/forecast', headers: headers, params: JSON.generate(params)
+    #
+    #     parsed = parse(response)
+    #
+    #     expect(response).to_not be_successful
+    #     expect(response.status).to eq(401)
+    #     expect(response[:error]).to eq('Invalid request')
+    #   end
+    # end
   end
 end

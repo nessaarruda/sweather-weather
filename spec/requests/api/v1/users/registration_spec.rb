@@ -1,15 +1,20 @@
 require 'rails_helper'
 
-RSpec.describe 'User Registration' do
+describe 'User Registration' do
   describe 'happy path' do
     it 'creates a user in the db, and generates a unique api key for that user,' do
+      headers = {
+        CONTENT_TYPE: 'application/json',
+        ACCEPT: 'application/json'
+      }
+
       params = {
         email:  'user@example.com',
         password: 'password',
         password_confirmation: 'password'
       }
 
-      post '/api/v1/users', params: params
+      post '/api/v1/users', headers: headers, params: JSON.generate(params)
 
       expect(User.all.count).to eq(1)
 

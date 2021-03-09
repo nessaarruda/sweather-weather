@@ -61,21 +61,21 @@ describe 'Background image', type: :request do
         expect(response.body).to eq('Invalid request')
       end
     end
-    xit 'returns error if location is invalid' do
-      headers = {
-        CONTENT_TYPE: 'application/json',
-        ACCEPT: 'application/json'
-      }
-
-      VCR.use_cassette('no_background') do
-        params = { location: 'rdsjnto6z' }
-
-        get '/api/v1/backgrounds', headers: headers, params: params
-
-        expect(response).to_not be_successful
-        expect(response.status).to eq(400)
-        expect(response.body).to eq('Invalid request')
-      end
-    end
+    # xit 'returns error if location is invalid' do
+    #   headers = {
+    #     CONTENT_TYPE: 'application/json',
+    #     ACCEPT: 'application/json'
+    #   }
+    #
+    #   VCR.use_cassette('no_background') do
+    #     params = { location: 'rdsjnto6z' }
+    #
+    #     get '/api/v1/backgrounds', headers: headers, params: params
+    #
+    #     expect(response).to_not be_successful
+    #     expect(response.status).to eq(400)
+    #     expect(response.body).to eq('Invalid request')
+    #   end
+    # end
   end
 end

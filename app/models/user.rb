@@ -12,6 +12,6 @@ class User < ApplicationRecord
   private
 
   def set_api_key
-    update(api_key: SecureRandom.uuid) 
+    update(api_key: SecureRandom.uuid)
   end
 end

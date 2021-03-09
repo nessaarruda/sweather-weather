@@ -3,6 +3,11 @@ require 'rails_helper'
 describe 'User login' do
   describe 'happy path' do
     it 'can log in user if credentials are good' do
+      headers = {
+        CONTENT_TYPE: 'application/json',
+        ACCEPT: 'application/json'
+      }
+
       user = create(:user)
 
       params = {
@@ -10,7 +15,7 @@ describe 'User login' do
         'password' => user.password
       }
 
-      post '/api/v1/sessions', params: params
+      post '/api/v1/sessions', headers: headers, params: JSON.generate(params)
 
       expect(response.status).to eq(200)
       expect(response).to be_successful

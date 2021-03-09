@@ -86,23 +86,23 @@ describe 'Road trip' do
     end
   end
   describe 'sad path' do
-    xit 'returns error message if route is impossible' do
-      VCR.use_cassette('no_route_ny_lon') do
-        user = create(:user)
-        headers = {'CONTENT_TYPE' => 'application/json'}
-        params = {
-                  start_city: 'New York, NY',
-                  end_city: 'London, UK',
-                  api_key: user.api_key
-                 }
-
-        post '/api/v1/road_trip', headers: headers, params: JSON.generate(params)
-
-        expect(response).to_not be_successful
-        expect(response.status).to eq(401)
-        expect(response[:error]).to eq('Impossible route')
-      end
-    end
+    # xit 'returns error message if route is impossible' do
+    #   VCR.use_cassette('no_route_ny_lon') do
+    #     user = create(:user)
+    #     headers = {'CONTENT_TYPE' => 'application/json'}
+    #     params = {
+    #               start_city: 'New York, NY',
+    #               end_city: 'London, UK',
+    #               api_key: user.api_key
+    #              }
+    #
+    #     post '/api/v1/road_trip', headers: headers, params: JSON.generate(params)
+    #
+    #     expect(response).to_not be_successful
+    #     expect(response.status).to eq(401)
+    #     expect(response[:error]).to eq('Impossible route')
+    #   end
+    # end
     it 'returns error message if one or both cities are not provided' do
       VCR.use_cassette('no_route_ny_lon') do
         user = create(:user)
